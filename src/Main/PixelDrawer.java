@@ -12,7 +12,7 @@ public class PixelDrawer extends JComponent {
 	
 	public PixelDrawer() {
 		pixels = new int[Constants.SCREEN_WIDTH][Constants.SCREEN_HEIGHT];
-		setPreferredSize(new Dimension(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT));
+		setPreferredSize(new Dimension(Constants.SCREEN_WIDTH * Constants.PIXEL_SIZE, Constants.SCREEN_HEIGHT * Constants.PIXEL_SIZE));
 	}
 	
 	@Override
