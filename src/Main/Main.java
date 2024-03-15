@@ -3,8 +3,9 @@ package Main;
 import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
-public class Main implements MouseListener {
+public class Main implements MouseListener, MouseMotionListener {
 	private static Renderer renderer;
 	
 	public static void main(String[] args) {
@@ -47,5 +48,15 @@ public class Main implements MouseListener {
 	@Override
 	public void mouseExited(MouseEvent e) {
 		renderer.mouseExited(e);
+	}
+	
+	@Override
+	public void mouseDragged(MouseEvent e) {
+		renderer.mouseDragged(e);
+	}
+	
+	@Override
+	public void mouseMoved(MouseEvent e) {
+		renderer.mouseMoved(e);
 	}
 }
