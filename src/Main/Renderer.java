@@ -1,14 +1,20 @@
-import Util.*;
-import Util.Constants;
+package Main;
 
-public class RenderThread implements Runnable {
+import Main.Cells.Cell;
+import Main.Util.Constants;
+
+import java.awt.event.MouseEvent;
+
+public class Renderer implements Runnable {
 	private final PixelDrawer pixelDrawer;
 	private boolean shouldRender = true;
 	private int frameCount = 0;
 	
-	public RenderThread(final PixelDrawer pixelDrawer) {
+	public Renderer(final PixelDrawer pixelDrawer) {
 		this.pixelDrawer = pixelDrawer;
 	}
+	
+	Cell board[][] = new Cell[Constants.SCREEN_WIDTH][Constants.SCREEN_WIDTH];
 	
 	@Override
 	public void run() {
@@ -31,5 +37,25 @@ public class RenderThread implements Runnable {
 	}
 	public void setShouldRender(boolean shouldRender) {
 		this.shouldRender = shouldRender;
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+	
+	}
+	
+	public void mousePressed(MouseEvent e) {
+	
+	}
+	
+	public void mouseReleased(MouseEvent e) {
+	
+	}
+	
+	public void mouseEntered(MouseEvent e) {
+	
+	}
+	
+	public void mouseExited(MouseEvent e) {
+	
 	}
 }

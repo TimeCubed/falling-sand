@@ -1,4 +1,4 @@
-package Util;
+package Main.Util;
 
 public class UtilMethods {
 	/**

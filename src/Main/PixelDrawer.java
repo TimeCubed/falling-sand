@@ -1,6 +1,8 @@
-import Util.*;
-import Util.Point;
-import Util.Shape2D;
+package Main;
+
+import Main.Util.*;
+import Main.Util.Point;
+import Main.Util.Shape2D;
 
 import javax.swing.*;
 import java.awt.*;

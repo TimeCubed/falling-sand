@@ -1,1 +1,2 @@
 A simple little falling sand simulation that I made for fun, use it if you want
+(also includes code for what was originally meant to be a wireframe renderer, but I repurposed it to become this instead)

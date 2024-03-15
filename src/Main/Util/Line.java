@@ -1,4 +1,4 @@
-package Util;
+package Main.Util;
 
 public class Line implements Cloneable {
 	private final Point startPoint, endPoint;
