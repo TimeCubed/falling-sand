@@ -30,7 +30,7 @@ public class PixelDrawer extends JComponent {
 	}
 	
 	public void drawPixel(int x, int y) {
-		if (x >= 0 && x * Constants.PIXEL_SIZE < Constants.SCREEN_WIDTH && y >= 0 && y * Constants.PIXEL_SIZE < Constants.SCREEN_HEIGHT) {
+		if (x >= 0 && x < Constants.SCREEN_WIDTH && y >= 0 && y < Constants.SCREEN_HEIGHT) {
 			pixels[x][y] = 1;
 			repaint();
 		}
