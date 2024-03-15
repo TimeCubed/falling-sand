@@ -9,12 +9,14 @@ public class SandCell extends Cell {
 	}
 	
 	@Override
-	public void update() {
+	public int[] update(final Cell[][] board) {
 		this.y += 1;
 		
-		if (this.y > Constants.SCREEN_HEIGHT) {
+		if (this.y >= Constants.SCREEN_HEIGHT || board[this.x][this.y] != null) {
 			this.y -= 1;
 		}
+		
+		return new int[] {this.x, this.y};
 	}
 	
 	@Override

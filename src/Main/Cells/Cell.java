@@ -19,7 +19,7 @@ public abstract class Cell {
 	 *
 	 * @return A 2 element integer array containing the new X and Y positions after updating
 	 */
-	public abstract int[] update();
+	public abstract int[] update(final Cell[][] board);
 	
 	/**
 	 * Draws the current cell using the internal <code>PixelDrawer</code> object from the constructor.
