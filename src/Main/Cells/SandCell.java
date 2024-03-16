@@ -49,7 +49,7 @@ public class SandCell extends Cell {
 		
 		validatePosition();
 		
-		return new int[] {this.x, this.y};
+		return super.update(board);
 	}
 	
 	public void validatePosition() {

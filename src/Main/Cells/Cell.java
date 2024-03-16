@@ -5,7 +5,9 @@ import java.awt.*;
 import java.util.Random;
 
 public abstract class Cell {
-	protected int x, prevX, y, prevY, horizontalTravelDirection, totalHorizontalTravel = 0;
+	protected int x, prevX, y, prevY;
+	protected int horizontalTravelDirection, totalHorizontalTravel = 0;
+	protected int tickLifeTime = 0;
 	protected boolean updated, moving;
 	protected Color color;
 	protected PixelDrawer pixelDrawer;
@@ -38,12 +40,16 @@ public abstract class Cell {
 	
 	/**
 	 * Call to update this cell's position and relevant state information. Must be called by
-	 * subclasses at the end of their update.
+	 * subclasses at the end of their update to update base cell info.
 	 *
 	 * @param board The game board with all the cells in it for neighbor data
 	 * @return A 2 element integer array containing the new X and Y positions after updating
 	 */
-	public abstract int[] update(final Cell[][] board);
+	public int[] update(final Cell[][] board) {
+		tickLifeTime++;
+		
+		return new int[] {this.x, this.y};
+	}
 	
 	/**
 	 * Draws the current cell using the internal <code>PixelDrawer</code> object from the constructor.
