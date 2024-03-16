@@ -6,7 +6,6 @@ import Main.Util.Constants;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.InvocationTargetException;
 
 import static Main.Main.LISTENER;
 
@@ -23,8 +22,9 @@ public class Renderer implements Runnable {
 	
 	@Override
 	public void run() {
+		int FPS = 30;
 		long lastTime = System.nanoTime();
-		double nsPerFrame = 1.0 / 30 * 1e9;
+		double nsPerFrame = 1.0 / FPS * 1e9;
 		double delta = 0;
 		
 		try {
@@ -51,7 +51,7 @@ public class Renderer implements Runnable {
 		}
 	}
 	
-	public void renderFrame() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+	public void renderFrame() {
 		// update loop
 		for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
 			for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
