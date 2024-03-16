@@ -2,12 +2,14 @@ package Main.Cells;
 
 import Main.PixelDrawer;
 import java.awt.*;
+import java.util.Random;
 
 public abstract class Cell {
 	protected int x, y;
 	protected boolean updated;
 	protected Color color;
 	protected PixelDrawer pixelDrawer;
+	protected Random random = new Random();
 	
 	/**
 	 * Creates a new default Cell.
