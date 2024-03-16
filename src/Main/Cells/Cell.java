@@ -29,6 +29,22 @@ public abstract class Cell {
 	}
 	
 	/**
+	 * Overload constructor without color parameter that sets the color of this cell to <code>Color.black</code>
+	 *
+	 * @param pixelDrawer The <code>PixelDrawer</code> object that is used for drawing
+	 * @param x The initial X position of this cell
+	 * @param y The initial Y position of this cell
+	 */
+	public Cell(PixelDrawer pixelDrawer, int x, int y) {
+		this.x = x;
+		this.y = y;
+		this.color = Color.BLACK;
+		
+		this.pixelDrawer = pixelDrawer;
+		updated = false;
+	}
+	
+	/**
 	 * Call to update this cell's position and relevant state information.
 	 *
 	 * @return A 2 element integer array containing the new X and Y positions after updating
@@ -42,6 +58,9 @@ public abstract class Cell {
 	
 	public void setUpdated(boolean updated) {
 		this.updated = updated;
+	}
+	public void setColor(Color color) {
+		this.color = color;
 	}
 	public boolean hasUpdated() {
 		return this.updated;
