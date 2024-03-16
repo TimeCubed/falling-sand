@@ -6,6 +6,7 @@ import Main.Util.Constants;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
 
 import static Main.Main.LISTENER;
 
@@ -50,8 +51,7 @@ public class Renderer implements Runnable {
 		}
 	}
 	
-	public void renderFrame() {
-		
+	public void renderFrame() throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
 		// update loop
 		for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
 			for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
@@ -101,7 +101,7 @@ public class Renderer implements Runnable {
 			int y = (mousePosition.y - LISTENER.getFrame().getY()) / Constants.PIXEL_SIZE;
 			
 			if (!(x < 0 || y < 0) && !(x >= Constants.SCREEN_WIDTH || y >= Constants.SCREEN_HEIGHT)) {
-				board[x][y] = new SandCell(pixelDrawer, x, y);
+				Cell.createCluster(pixelDrawer, x, y, board, SandCell.class);
 			}
 		}
 	}
@@ -110,12 +110,7 @@ public class Renderer implements Runnable {
 	
 	}
 	
-	public void mousePressed(MouseEvent e) {
-		int x = e.getX() / Constants.PIXEL_SIZE;
-		int y = e.getY() / Constants.PIXEL_SIZE;
-		
-		board[x][y] = new SandCell(pixelDrawer, x, y);
-		
+	public void mousePressed(MouseEvent ignored) {
 		isClicking = true;
 	}
 	
