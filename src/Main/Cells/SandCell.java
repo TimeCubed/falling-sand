@@ -2,10 +2,11 @@ package Main.Cells;
 
 import Main.PixelDrawer;
 import Main.Util.Constants;
+import java.awt.*;
 
 public class SandCell extends Cell {
 	public SandCell(PixelDrawer pixelDrawer, int x, int y) {
-		super(pixelDrawer, x, y);
+		super(pixelDrawer, x, y, new Color(194, 178, 128));
 	}
 	
 	@Override
@@ -21,6 +22,7 @@ public class SandCell extends Cell {
 	
 	@Override
 	public void draw() {
+		pixelDrawer.setDrawColor(this.color);
 		pixelDrawer.drawPixel(x, y);
 	}
 }
