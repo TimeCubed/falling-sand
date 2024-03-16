@@ -6,6 +6,7 @@ import java.awt.*;
 
 public class SandCell extends Cell {
 	private final int maxTravel;
+	protected int horizontalTravelDirection, totalHorizontalTravel = 0;
 	
 	public SandCell(PixelDrawer pixelDrawer, int x, int y) {
 		super(pixelDrawer, x, y);
@@ -50,40 +51,6 @@ public class SandCell extends Cell {
 		validatePosition();
 		
 		return super.update(board);
-	}
-	
-	public void validatePosition() {
-		if (this.x >= Constants.SCREEN_WIDTH) {
-			this.x = Constants.SCREEN_WIDTH - 1;
-		}
-		
-		if (this.x < 0) {
-			this.x = 0;
-		}
-		
-		if (this.y >= Constants.SCREEN_HEIGHT) {
-			this.y = Constants.SCREEN_HEIGHT - 1;
-		}
-		
-		if (this.y < 0) {
-			this.y = 0;
-		}
-	}
-	
-	public boolean leftEdgeCheck() {
-		return this.x == 0;
-	}
-	
-	public boolean rightEdgeCheck() {
-		return this.x == Constants.SCREEN_WIDTH - 1;
-	}
-	
-	public boolean horizontalEdgeCheck() {
-		return leftEdgeCheck() || rightEdgeCheck();
-	}
-	
-	public boolean groundCheck() {
-		return this.y == Constants.SCREEN_HEIGHT - 1;
 	}
 	
 	@Override

@@ -1,14 +1,15 @@
 package Main.Cells;
 
 import Main.PixelDrawer;
+import Main.Util.Constants;
+
 import java.awt.*;
 import java.util.Random;
 
 public abstract class Cell {
 	protected int x, prevX, y, prevY;
-	protected int horizontalTravelDirection, totalHorizontalTravel = 0;
-	protected int tickLifeTime = 0;
-	protected boolean updated, moving;
+	protected long tickLifeTime = 0;
+	protected boolean updated;
 	protected Color color;
 	protected PixelDrawer pixelDrawer;
 	protected Random random = new Random();
@@ -33,9 +34,6 @@ public abstract class Cell {
 		
 		this.pixelDrawer = pixelDrawer;
 		updated = false;
-		
-		horizontalTravelDirection = 0;
-		moving = true;
 	}
 	
 	/**
@@ -82,5 +80,40 @@ public abstract class Cell {
 	}
 	public boolean hasUpdated() {
 		return this.updated;
+	}
+	
+	// Util methods
+	public void validatePosition() {
+		if (this.x >= Constants.SCREEN_WIDTH) {
+			this.x = Constants.SCREEN_WIDTH - 1;
+		}
+		
+		if (this.x < 0) {
+			this.x = 0;
+		}
+		
+		if (this.y >= Constants.SCREEN_HEIGHT) {
+			this.y = Constants.SCREEN_HEIGHT - 1;
+		}
+		
+		if (this.y < 0) {
+			this.y = 0;
+		}
+	}
+	
+	public boolean leftEdgeCheck() {
+		return this.x == 0;
+	}
+	
+	public boolean rightEdgeCheck() {
+		return this.x == Constants.SCREEN_WIDTH - 1;
+	}
+	
+	public boolean horizontalEdgeCheck() {
+		return leftEdgeCheck() || rightEdgeCheck();
+	}
+	
+	public boolean groundCheck() {
+		return this.y == Constants.SCREEN_HEIGHT - 1;
 	}
 }
