@@ -72,9 +72,6 @@ public class PixelDrawer extends JComponent {
 			drawLine(line);
 		}
 	}
-	public void fillShape(Shape2D shape2D) {
-	
-	}
 	
 	public void refresh() {
 		pixels = new int[Constants.SCREEN_WIDTH][Constants.SCREEN_HEIGHT];
