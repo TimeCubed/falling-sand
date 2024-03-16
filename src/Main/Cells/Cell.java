@@ -5,11 +5,17 @@ import java.awt.*;
 import java.util.Random;
 
 public abstract class Cell {
-	protected int x, y;
-	protected boolean updated;
+	protected int x, prevX, y, prevY, horizontalTravelDirection, totalHorizontalTravel = 0;
+	protected boolean updated, moving;
 	protected Color color;
 	protected PixelDrawer pixelDrawer;
 	protected Random random = new Random();
+	
+	protected static class HorizontalTravelDirections {
+		public static int LEFT = -1;
+		public static int NO_TRAVEL = 0;
+		public static int RIGHT = 1;
+	}
 	
 	/**
 	 * Creates a new cell with a default black color
@@ -25,10 +31,14 @@ public abstract class Cell {
 		
 		this.pixelDrawer = pixelDrawer;
 		updated = false;
+		
+		horizontalTravelDirection = 0;
+		moving = true;
 	}
 	
 	/**
-	 * Call to update this cell's position and relevant state information.
+	 * Call to update this cell's position and relevant state information. Must be called by
+	 * subclasses at the end of their update.
 	 *
 	 * @param board The game board with all the cells in it for neighbor data
 	 * @return A 2 element integer array containing the new X and Y positions after updating
