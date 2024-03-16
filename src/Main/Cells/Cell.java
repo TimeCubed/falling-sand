@@ -1,17 +1,29 @@
 package Main.Cells;
 
 import Main.PixelDrawer;
+import java.awt.*;
 
 public abstract class Cell {
 	protected int x, y;
 	protected boolean updated;
+	protected Color color;
 	protected PixelDrawer pixelDrawer;
 	
-	public Cell(PixelDrawer pixelDrawer, int x, int y) {
+	/**
+	 * Creates a new default Cell.
+	 *
+	 * @param pixelDrawer The <code>PixelDrawer</code> object that is used for drawing
+	 * @param x The initial X position of this cell
+	 * @param y The initial Y position of this cell
+	 * @param color The draw color to be used by the <code>pixelDrawer</code> to draw this cell with.
+	 */
+	public Cell(PixelDrawer pixelDrawer, int x, int y, Color color) {
 		this.x = x;
 		this.y = y;
+		this.color = color;
 		
 		this.pixelDrawer = pixelDrawer;
+		updated = false;
 	}
 	
 	/**
