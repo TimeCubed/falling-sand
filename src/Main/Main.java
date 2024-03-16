@@ -7,15 +7,17 @@ import java.awt.event.MouseMotionListener;
 
 public class Main implements MouseListener, MouseMotionListener {
 	private static Renderer renderer;
+	public static Main LISTENER = new Main();
+	private static JFrame jFrame;
 	
 	public static void main(String[] args) {
 		PixelDrawer pixelDrawer = new PixelDrawer();
-		JFrame jFrame = new JFrame("Wireframe Main.Renderer");
+		jFrame = new JFrame("Wireframe Main.Renderer");
 		
 		jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		jFrame.setResizable(false);
 		jFrame.add(pixelDrawer);
-		jFrame.addMouseListener(new Main());
+		jFrame.addMouseListener(LISTENER);
 		jFrame.pack();
 		jFrame.setLocationRelativeTo(null);
 		jFrame.setVisible(true);
@@ -58,5 +60,9 @@ public class Main implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		renderer.mouseMoved(e);
+	}
+	
+	public JFrame getFrame() {
+		return jFrame;
 	}
 }
