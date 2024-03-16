@@ -2,6 +2,7 @@ package Main.Cells;
 
 import Main.PixelDrawer;
 import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
 public abstract class Cell {
@@ -64,7 +65,18 @@ public abstract class Cell {
 	 * @param y The Y position to create the cluster of cells at
 	 * @param board The game board used for neighbor data
 	 */
-	public abstract void createCluster(int x, int y, final Cell[][] board);
+	public static void createCluster(PixelDrawer pixelDrawer, int x, int y, final Cell[][] board, Class<? extends Cell> cellType) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+		board[x][y] = createCellOfType(pixelDrawer, x, y, cellType);
+	}
+	
+	private static Cell createCellOfType(PixelDrawer pixelDrawer, int x, int y, Class<? extends Cell> cellType) {
+		switch(cellType.getSimpleName()) {
+			case "SandCell":
+				return new SandCell(pixelDrawer, x, y);
+			default:
+				throw new IllegalArgumentException("Invalid cell type given");
+		}
+	}
 	
 	public void setUpdated(boolean updated) {
 		this.updated = updated;
