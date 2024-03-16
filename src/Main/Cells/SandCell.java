@@ -6,7 +6,11 @@ import java.awt.*;
 
 public class SandCell extends Cell {
 	public SandCell(PixelDrawer pixelDrawer, int x, int y) {
-		super(pixelDrawer, x, y, new Color(194, 178, 128));
+		super(pixelDrawer, x, y);
+		
+		int brightnessOffset = this.random.nextInt(41) - 20;
+		
+		super.setColor(new Color(194 + brightnessOffset, 178 + brightnessOffset, 128 + brightnessOffset));
 	}
 	
 	@Override
