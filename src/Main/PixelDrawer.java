@@ -9,10 +9,12 @@ import java.awt.*;
 
 public class PixelDrawer extends JComponent {
 	private int[][] pixels;
+	private Color drawColor;
 	
 	public PixelDrawer() {
 		pixels = new int[Constants.SCREEN_WIDTH][Constants.SCREEN_HEIGHT];
 		setPreferredSize(new Dimension(Constants.SCREEN_WIDTH * Constants.PIXEL_SIZE, Constants.SCREEN_HEIGHT * Constants.PIXEL_SIZE));
+		drawColor = Color.BLACK;
 	}
 	
 	@Override
@@ -21,8 +23,8 @@ public class PixelDrawer extends JComponent {
 		
 		for (int x = 0; x < Constants.SCREEN_WIDTH; x++) {
 			for (int y = 0; y < Constants.SCREEN_HEIGHT; y++) {
-				if (pixels[x][y] == 1) {
-					g.setColor(Color.BLACK);
+				if (pixels[x][y] != 0) {
+					g.setColor(new Color(pixels[x][y]));
 					g.fillRect(x * Constants.PIXEL_SIZE, y * Constants.PIXEL_SIZE, Constants.PIXEL_SIZE, Constants.PIXEL_SIZE);
 				}
 			}
@@ -31,7 +33,7 @@ public class PixelDrawer extends JComponent {
 	
 	public void drawPixel(int x, int y) {
 		if (x >= 0 && x < Constants.SCREEN_WIDTH && y >= 0 && y < Constants.SCREEN_HEIGHT) {
-			pixels[x][y] = 1;
+			pixels[x][y] = drawColor.getRGB();
 			repaint();
 		}
 	}
@@ -77,5 +79,8 @@ public class PixelDrawer extends JComponent {
 	public void refresh() {
 		pixels = new int[Constants.SCREEN_WIDTH][Constants.SCREEN_HEIGHT];
 		this.repaint();
+	}
+	public void setDrawColor(Color color) {
+		drawColor = color;
 	}
 }
