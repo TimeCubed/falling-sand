@@ -50,6 +50,9 @@ public class Renderer implements Runnable {
 					if (debugMode) step--;
 				}
 				
+				if (!debugMode) {
+					continue;
+				}
 				
 				Point mousePosition = MouseInfo.getPointerInfo().getLocation();
 				
@@ -63,13 +66,7 @@ public class Renderer implements Runnable {
 					pixelDrawer.clearPixel(prevX, prevY);
 				}
 				
-				for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
-					for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
-						if (board[i][j] != null) {
-							board[i][j].draw();
-						}
-					}
-				}
+				renderCells();
 				
 				pixelDrawer.repaint();
 			}
@@ -84,35 +81,9 @@ public class Renderer implements Runnable {
 	}
 	
 	public void renderFrame() {
-		// update loop
-		for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
-			for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
-				if (board[i][j] == null || board[i][j].hasUpdated()) {
-					continue;
-				}
-				
-				int[] newPosition = board[i][j].update(board);
-				
-				board[i][j].setUpdated(true);
-				
-				if (newPosition[0] == i && newPosition[1] == j) {
-					continue;
-				}
-				
-				board[newPosition[0]][newPosition[1]] = board[i][j];
-				board[i][j] = null;
-			}
-		}
+		updateCells();
 		
-		// draw loop
-		for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
-			for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
-				if (board[i][j] != null) {
-					board[i][j].draw();
-					board[i][j].setUpdated(false);
-				}
-			}
-		}
+		renderCells();
 		
 		Point mousePosition = MouseInfo.getPointerInfo().getLocation();
 		
@@ -133,30 +104,56 @@ public class Renderer implements Runnable {
 		pixelDrawer.drawPixel(x, y);
 	}
 	
+	public void updateCells() {
+		for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
+			for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
+				if (board[i][j] == null || board[i][j].hasUpdated()) {
+					continue;
+				}
+				
+				int[] newPosition = board[i][j].update(board);
+				
+				board[i][j].setUpdated(true);
+				
+				if (newPosition[0] == i && newPosition[1] == j) {
+					continue;
+				}
+				
+				board[newPosition[0]][newPosition[1]] = board[i][j];
+				board[i][j] = null;
+			}
+		}
+	}
+	
+	public void renderCells() {
+		for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
+			for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
+				if (board[i][j] != null) {
+					board[i][j].draw();
+					board[i][j].setUpdated(false);
+				}
+			}
+		}
+	}
+	
 	public void mouseClicked(MouseEvent ignored) {
 	
 	}
-	
 	public void mousePressed(MouseEvent ignored) {
 		isClicking = true;
 	}
-	
 	public void mouseReleased(MouseEvent ignored) {
 		isClicking = false;
 	}
-	
 	public void mouseMoved(MouseEvent ignored) {
 	
 	}
-	
 	public void mouseDragged(MouseEvent ignored) {
 	
 	}
-	
 	public void mouseEntered(MouseEvent ignored) {
 	
 	}
-	
 	public void mouseExited(MouseEvent ignored) {
 	
 	}
@@ -214,11 +211,9 @@ public class Renderer implements Runnable {
 			}
 		}
 	}
-	
 	public void keyPressed(KeyEvent ignored) {
 	
 	}
-	
 	public void keyReleased(KeyEvent ignored) {
 	
 	}
