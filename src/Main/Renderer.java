@@ -1,10 +1,10 @@
 package Main;
 
-import Main.Cells.Cell;
-import Main.Cells.SandCell;
+import Main.Cells.*;
 import Main.Util.Constants;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 import static Main.Main.LISTENER;
@@ -13,6 +13,8 @@ public class Renderer implements Runnable {
 	private final PixelDrawer pixelDrawer;
 	private boolean shouldRender = true;
 	private boolean isClicking = false;
+	private String selectedCellType = "SandCell";
+	private int clusterSize = 3;
 	
 	public Renderer(final PixelDrawer pixelDrawer) {
 		this.pixelDrawer = pixelDrawer;
@@ -38,6 +40,8 @@ public class Renderer implements Runnable {
 					
 					renderFrame();
 					
+					pixelDrawer.repaint();
+					
 					delta--;
 				}
 			}
@@ -52,29 +56,23 @@ public class Renderer implements Runnable {
 	}
 	
 	public void renderFrame() {
+		Cell[][] nextGen = new Cell[Constants.SCREEN_WIDTH][Constants.SCREEN_HEIGHT];
+		
 		// update loop
 		for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
 			for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
-				if (board[i][j] != null) {
-					if (board[i][j].hasUpdated()) {
-						continue;
-					}
-					
-					int[] newPosition = board[i][j].update(board);
-					
-					if (newPosition[0] == i && newPosition[1] == j) {
-						board[newPosition[0]][newPosition[1]].setUpdated(true);
-						
-						continue;
-					}
-					
-					board[newPosition[0]][newPosition[1]] = board[i][j];
-					board[i][j] = null;
-					
-					board[newPosition[0]][newPosition[1]].setUpdated(true);
+				if (board[i][j] == null) {
+					continue;
 				}
+				
+				int[] newPosition = board[i][j].update(board);
+				
+				nextGen[newPosition[0]][newPosition[1]] = board[i][j];
+				
+				board[i][j].setUpdated(true);
 			}
 		}
+		board = nextGen;
 		
 		// draw loop
 		for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
@@ -101,7 +99,10 @@ public class Renderer implements Runnable {
 			int y = (mousePosition.y - LISTENER.getFrame().getY()) / Constants.PIXEL_SIZE;
 			
 			if (!(x < 0 || y < 0) && !(x >= Constants.SCREEN_WIDTH || y >= Constants.SCREEN_HEIGHT)) {
-				Cell.createCluster(pixelDrawer, x, y, board, SandCell.class);
+				switch (selectedCellType) {
+					case "SandCell" -> Cell.createCluster(pixelDrawer, x, y, board, clusterSize, SandCell.class);
+					case "WaterCell" -> Cell.createCluster(pixelDrawer, x, y, board, clusterSize, WaterCell.class);
+				}
 			}
 		}
 	}
@@ -131,6 +132,27 @@ public class Renderer implements Runnable {
 	}
 	
 	public void mouseExited(MouseEvent ignored) {
+	
+	}
+	
+	public void keyTyped(KeyEvent e) {
+		switch (e.getKeyChar()) {
+			case '1' -> selectedCellType = "SandCell";
+			case '2' -> selectedCellType = "WaterCell";
+			
+			case 'a' -> clusterSize = 1;
+			case 's' -> clusterSize = 3;
+			case 'd' -> clusterSize = 5;
+		}
+		
+		System.out.println(selectedCellType + ' ' + clusterSize);
+	}
+	
+	public void keyPressed(KeyEvent ignored) {
+	
+	}
+	
+	public void keyReleased(KeyEvent ignored) {
 	
 	}
 }
