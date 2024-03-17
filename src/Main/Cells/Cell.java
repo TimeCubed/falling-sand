@@ -7,13 +7,12 @@ import java.awt.*;
 import java.util.Random;
 
 public abstract class Cell {
-	protected int x, prevX, y, prevY;
+	protected int x, prevX, y, prevY, horizontalTravelDirection, totalHorizontalTravel = 0, id;
+	protected boolean updated;
 	protected long tickLifeTime = 0;
 	protected Color color;
-	protected boolean updated;
 	protected PixelDrawer pixelDrawer;
 	protected Random random = new Random();
-	protected int horizontalTravelDirection, totalHorizontalTravel = 0, id;
 	
 	protected static class HorizontalTravelDirections {
 		public static int LEFT = -1;
@@ -21,13 +20,6 @@ public abstract class Cell {
 		public static int RIGHT = 1;
 	}
 	
-	/**
-	 * Creates a new typeless cell with a default black color
-	 *
-	 * @param pixelDrawer The <code>PixelDrawer</code> object that is used for drawing
-	 * @param x The initial X position of this cell
-	 * @param y The initial Y position of this cell
-	 */
 	public Cell(PixelDrawer pixelDrawer, int x, int y, int id) {
 		this.x = x;
 		this.y = y;
@@ -38,39 +30,16 @@ public abstract class Cell {
 		this.updated = false;
 	}
 	
-	/**
-	 * Call to update this cell's position and relevant state information. Must be called by
-	 * subclasses at the end of their update to update base cell info.
-	 *
-	 * @param board The game board with all the cells in it for neighbor data
-	 * @return A 2 element integer array containing the new X and Y positions after updating
-	 */
 	public int[] update(final Cell[][] board) {
 		tickLifeTime++;
 		
 		return new int[] {this.x, this.y};
 	}
 
-	/**
-	 * Returns the cell's expected X and Y position after an update without updating its position
-	 *
-	 * @param board The game board with all the cells in it for neighbor data
-	 * @return A 2 element integer array containing the updated X and Y position
-	 */
 	public abstract int[] returnUpdatePosition(final Cell[][] board);
 	
-	/**
-	 * Draws the current cell using the internal <code>PixelDrawer</code> object from the constructor.
-	 */
 	public abstract void draw();
 	
-	/**
-	 * Creates a cluster of this cell at the given location
-	 *
-	 * @param x The X position to create the cluster of cells at
-	 * @param y The Y position to create the cluster of cells at
-	 * @param board The game board used for neighbor data
-	 */
 	public static void createCluster(PixelDrawer pixelDrawer, int x, int y, final Cell[][] board, int clusterSize, Class<? extends Cell> cellType, int id) {
 		for (int i = x - (int) (Math.floor((double) clusterSize / 2)); i <= x + (int) (Math.floor((double) clusterSize / 2)); i++) {
 			for (int j = y - (int) (Math.floor((double) clusterSize / 2)); j <= y + (int) (Math.floor((double) clusterSize / 2)); j++) {
@@ -92,9 +61,6 @@ public abstract class Cell {
 		};
 	}
 	
-	public int getHorizontalTravelDirection() {
-		return horizontalTravelDirection;
-	}
 	public int getX() {
 		return x;
 	}
@@ -104,16 +70,18 @@ public abstract class Cell {
 	public int getId() {
 		return id;
 	}
+	public boolean hasUpdated() {
+		return updated;
+	}
+	public int getHorizontalTravelDirection() {
+		return horizontalTravelDirection;
+	}
 	
 	public void setColor(Color color) {
 		this.color = color;
 	}
 	public void setUpdated(boolean updated) {
 		this.updated = updated;
-	}
-	
-	public boolean hasUpdated() {
-		return updated;
 	}
 	
 	// Util methods
@@ -134,7 +102,6 @@ public abstract class Cell {
 			this.y = 0;
 		}
 	}
-	
 	public int[] validateCoordinates(int x, int y) {
 		if (x >= Constants.SCREEN_WIDTH) {
 			x = Constants.SCREEN_WIDTH - 1;
