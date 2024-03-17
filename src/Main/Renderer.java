@@ -184,8 +184,8 @@ public class Renderer implements Runnable {
 				
 				Cell debugCell = board[x][y];
 				
-				System.out.println("horizontal travel direction: " + debugCell.horizontalTravelDirection
-				+ ", x: " + debugCell.x + ", y: " + debugCell.y + ", id: " + debugCell.id);
+				System.out.println("horizontal travel direction: " + debugCell.getHorizontalTravelDirection()
+				+ ", x: " + debugCell.getX() + ", y: " + debugCell.getY() + ", id: " + debugCell.getId());
 				int[] next = debugCell.returnUpdatePosition(board);
 				System.out.println("next expected position: " + next[0] + ", " + next[1]);
 			}

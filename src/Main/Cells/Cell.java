@@ -10,10 +10,11 @@ public abstract class Cell {
 	protected int x, prevX, y, prevY;
 	protected long tickLifeTime = 0;
 	protected Color color;
+	protected boolean updated;
 	protected PixelDrawer pixelDrawer;
 	protected Random random = new Random();
+	protected int horizontalTravelDirection, totalHorizontalTravel = 0, id;
 	
-	protected int horizontalTravelDirection, totalHorizontalTravel = 0;
 	protected static class HorizontalTravelDirections {
 		public static int LEFT = -1;
 		public static int NO_TRAVEL = 0;
@@ -27,12 +28,14 @@ public abstract class Cell {
 	 * @param x The initial X position of this cell
 	 * @param y The initial Y position of this cell
 	 */
-	public Cell(PixelDrawer pixelDrawer, int x, int y) {
+	public Cell(PixelDrawer pixelDrawer, int x, int y, int id) {
 		this.x = x;
 		this.y = y;
 		this.color = Color.BLACK;
+		this.id = id;
 		
 		this.pixelDrawer = pixelDrawer;
+		this.updated = false;
 	}
 	
 	/**
@@ -68,26 +71,49 @@ public abstract class Cell {
 	 * @param y The Y position to create the cluster of cells at
 	 * @param board The game board used for neighbor data
 	 */
-	public static void createCluster(PixelDrawer pixelDrawer, int x, int y, final Cell[][] board, int clusterSize, Class<? extends Cell> cellType) {
+	public static void createCluster(PixelDrawer pixelDrawer, int x, int y, final Cell[][] board, int clusterSize, Class<? extends Cell> cellType, int id) {
 		for (int i = x - (int) (Math.floor((double) clusterSize / 2)); i <= x + (int) (Math.floor((double) clusterSize / 2)); i++) {
 			for (int j = y - (int) (Math.floor((double) clusterSize / 2)); j <= y + (int) (Math.floor((double) clusterSize / 2)); j++) {
-				if (i >= 0 && i < Constants.SCREEN_WIDTH && j >= 0 && j < Constants.SCREEN_HEIGHT) {
-					board[i][j] = createCellOfType(pixelDrawer, i, j, cellType);
+				Random random1 = new Random();
+				
+				if (i >= 0 && i < Constants.SCREEN_WIDTH && j >= 0 && j < Constants.SCREEN_HEIGHT && random1.nextBoolean()) {
+					board[i][j] = createCellOfType(pixelDrawer, i, j, cellType, id);
+					id++;
 				}
 			}
 		}
 	}
 	
-	private static Cell createCellOfType(PixelDrawer pixelDrawer, int x, int y, Class<? extends Cell> cellType) {
+	private static Cell createCellOfType(PixelDrawer pixelDrawer, int x, int y, Class<? extends Cell> cellType, int id) {
 		return switch (cellType.getSimpleName()) {
 			case "SandCell" -> new SandCell(pixelDrawer, x, y);
-			case "WaterCell" -> new WaterCell(pixelDrawer, x, y);
+			case "WaterCell" -> new WaterCell(pixelDrawer, x, y, id);
 			default -> throw new IllegalArgumentException("Invalid cell type given");
 		};
 	}
 	
+	public int getHorizontalTravelDirection() {
+		return horizontalTravelDirection;
+	}
+	public int getX() {
+		return x;
+	}
+	public int getY() {
+		return y;
+	}
+	public int getId() {
+		return id;
+	}
+	
 	public void setColor(Color color) {
 		this.color = color;
+	}
+	public void setUpdated(boolean updated) {
+		this.updated = updated;
+	}
+	
+	public boolean hasUpdated() {
+		return updated;
 	}
 	
 	// Util methods
