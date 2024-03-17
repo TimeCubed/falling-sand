@@ -34,7 +34,6 @@ public class PixelDrawer extends JComponent {
 	public void drawPixel(int x, int y) {
 		if (x >= 0 && x < Constants.SCREEN_WIDTH && y >= 0 && y < Constants.SCREEN_HEIGHT) {
 			pixels[x][y] = drawColor.getRGB();
-			repaint();
 		}
 	}
 	private void drawLine(int x1, int y1, int x2, int y2) {
@@ -75,7 +74,6 @@ public class PixelDrawer extends JComponent {
 	
 	public void refresh() {
 		pixels = new int[Constants.SCREEN_WIDTH][Constants.SCREEN_HEIGHT];
-		this.repaint();
 	}
 	public void setDrawColor(Color color) {
 		drawColor = color;
