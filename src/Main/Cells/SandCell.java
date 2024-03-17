@@ -8,7 +8,7 @@ public class SandCell extends Cell {
 	private final int maxTravel;
 	
 	public SandCell(PixelDrawer pixelDrawer, int x, int y) {
-		super(pixelDrawer, x, y);
+		super(pixelDrawer, x, y, 0);
 		
 		int brightnessOffset = this.random.nextInt(41) - 20;
 		
@@ -28,12 +28,12 @@ public class SandCell extends Cell {
 		this.prevX = this.x;
 		this.prevY = this.y;
 		
-		if (groundCheck() && (board[this.x][this.y + 1] == null || !Arrays.equals(board[this.x][this.y + 1].returnUpdatePosition(board), new int[]{this.x, this.y + 1}))) {
+		if (groundCheck() && board[this.x][this.y + 1] == null) {
 			this.y += 1;
-		} else if (!leftEdgeCheck() && groundCheck() && (board[this.x - 1][this.y + 1] == null || !Arrays.equals(board[this.x - 1][this.y + 1].returnUpdatePosition(board), new int[]{this.x - 1, this.y + 1}))) {
+		} else if (!leftEdgeCheck() && groundCheck() && board[this.x - 1][this.y + 1] == null && (horizontalTravelDirection == -1 || random.nextBoolean())) {
 			this.x -= 1;
 			this.y += 1;
-		} else if (!rightEdgeCheck() && groundCheck() && (board[this.x + 1][this.y + 1] == null || !Arrays.equals(board[this.x + 1][this.y + 1].returnUpdatePosition(board), new int[]{this.x + 1, this.y + 1}))) {
+		} else if (!rightEdgeCheck() && groundCheck() && board[this.x + 1][this.y + 1] == null && (horizontalTravelDirection == 1 || random.nextBoolean())) {
 			this.x += 1;
 			this.y += 1;
 		}
