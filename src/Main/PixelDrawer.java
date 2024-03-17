@@ -75,6 +75,11 @@ public class PixelDrawer extends JComponent {
 	public void refresh() {
 		pixels = new int[Constants.SCREEN_WIDTH][Constants.SCREEN_HEIGHT];
 	}
+	public void clearPixel(int x, int y) {
+		if (x >= 0 && x < Constants.SCREEN_WIDTH && y >= 0 && y < Constants.SCREEN_HEIGHT) {
+			pixels[x][y] = 0;
+		}
+	}
 	public void setDrawColor(Color color) {
 		drawColor = color;
 	}
