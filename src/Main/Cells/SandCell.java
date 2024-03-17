@@ -3,7 +3,6 @@ package Main.Cells;
 import Main.PixelDrawer;
 import java.awt.*;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class SandCell extends Cell {
 	private final int maxTravel;
@@ -29,12 +28,12 @@ public class SandCell extends Cell {
 		this.prevX = this.x;
 		this.prevY = this.y;
 		
-		if (!groundCheck() && (board[this.x][this.y + 1] == null || !Arrays.equals(board[this.x][this.y + 1].returnUpdatePosition(board), new int[]{this.x, this.y + 1}))) {
+		if (groundCheck() && (board[this.x][this.y + 1] == null || !Arrays.equals(board[this.x][this.y + 1].returnUpdatePosition(board), new int[]{this.x, this.y + 1}))) {
 			this.y += 1;
-		} else if (!leftEdgeCheck() && !groundCheck() && (board[this.x - 1][this.y + 1] == null || !Arrays.equals(board[this.x - 1][this.y + 1].returnUpdatePosition(board), new int[]{this.x - 1, this.y + 1}))) {
+		} else if (!leftEdgeCheck() && groundCheck() && (board[this.x - 1][this.y + 1] == null || !Arrays.equals(board[this.x - 1][this.y + 1].returnUpdatePosition(board), new int[]{this.x - 1, this.y + 1}))) {
 			this.x -= 1;
 			this.y += 1;
-		} else if (!rightEdgeCheck() && !groundCheck() && (board[this.x + 1][this.y + 1] == null || !Arrays.equals(board[this.x + 1][this.y + 1].returnUpdatePosition(board), new int[]{this.x + 1, this.y + 1}))) {
+		} else if (!rightEdgeCheck() && groundCheck() && (board[this.x + 1][this.y + 1] == null || !Arrays.equals(board[this.x + 1][this.y + 1].returnUpdatePosition(board), new int[]{this.x + 1, this.y + 1}))) {
 			this.x += 1;
 			this.y += 1;
 		}
@@ -58,12 +57,12 @@ public class SandCell extends Cell {
 
 		int[] validatedCoordinates;
 
-		if (!groundCheck() && board[updateX][updateY + 1] == null) {
+		if (groundCheck() && board[updateX][updateY + 1] == null) {
 			updateY += 1;
-		} else if (!leftEdgeCheck() && !groundCheck() && board[updateX - 1][updateY + 1] == null) {
+		} else if (!leftEdgeCheck() && groundCheck() && board[updateX - 1][updateY + 1] == null) {
 			updateX -= 1;
 			updateY += 1;
-		} else if (!rightEdgeCheck() && !groundCheck() && board[updateX +1][updateY + 1] == null) {
+		} else if (!rightEdgeCheck() && groundCheck() && board[updateX +1][updateY + 1] == null) {
 			updateX += 1;
 			updateY += 1;
 		}

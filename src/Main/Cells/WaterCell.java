@@ -24,13 +24,13 @@ public class WaterCell extends Cell {
 		this.prevX = this.x;
 		this.prevY = this.y;
 		
-		if (!groundCheck() && !belowCheck(board)) {
+		if (groundCheck() && !belowCheck(board)) {
 			this.y++;
 		}
 		
 		validatePosition();
 		
-		if (!horizontalEdgeCheck() && !groundCheck() && belowCheck(board) && (board[this.x + horizontalTravelDirection][this.y] == null || !Arrays.equals(board[this.x + horizontalTravelDirection][this.y].returnUpdatePosition(board), new int[] {this.x + horizontalTravelDirection, this.y}))) {
+		if (!horizontalEdgeCheck() && groundCheck() && belowCheck(board) && (board[this.x + horizontalTravelDirection][this.y] == null || !Arrays.equals(board[this.x + horizontalTravelDirection][this.y].returnUpdatePosition(board), new int[] {this.x + horizontalTravelDirection, this.y}))) {
 			this.x += horizontalTravelDirection;
 		}
 		
@@ -54,7 +54,7 @@ public class WaterCell extends Cell {
 		
 		int[] validatedCoordinates;
 		
-		if (!groundCheck() && !belowCheck(board)) {
+		if (groundCheck() && !belowCheck(board)) {
 			this.y++;
 		}
 		
@@ -62,7 +62,7 @@ public class WaterCell extends Cell {
 		updateX = validatedCoordinates[0];
 		updateY = validatedCoordinates[1];
 		
-		if (!horizontalEdgeCheck() && !groundCheck() && belowCheck(board) && board[this.x + horizontalTravelDirection][this.y] == null) {
+		if (!horizontalEdgeCheck() && groundCheck() && belowCheck(board) && board[this.x + horizontalTravelDirection][this.y] == null) {
 			updateX += horizontalTravelDirection;
 		}
 		

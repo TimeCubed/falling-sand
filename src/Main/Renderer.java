@@ -24,7 +24,7 @@ public class Renderer implements Runnable {
 	
 	@Override
 	public void run() {
-		int FPS = 30;
+		int FPS = 5;
 		long lastTime = System.nanoTime();
 		double nsPerFrame = 1.0 / FPS * 1e9;
 		double delta = 0;
@@ -68,8 +68,6 @@ public class Renderer implements Runnable {
 				int[] newPosition = board[i][j].update(board);
 				
 				nextGen[newPosition[0]][newPosition[1]] = board[i][j];
-				
-				board[i][j].setUpdated(true);
 			}
 		}
 		board = nextGen;
@@ -79,15 +77,6 @@ public class Renderer implements Runnable {
 			for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
 				if (board[i][j] != null) {
 					board[i][j].draw();
-				}
-			}
-		}
-		
-		// refresh loop
-		for (int i = 0; i < Constants.SCREEN_WIDTH; i++) {
-			for (int j = 0; j < Constants.SCREEN_HEIGHT; j++) {
-				if (board[i][j] != null) {
-					board[i][j].setUpdated(false);
 				}
 			}
 		}

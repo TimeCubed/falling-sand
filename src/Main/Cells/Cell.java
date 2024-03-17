@@ -9,7 +9,6 @@ import java.util.Random;
 public abstract class Cell {
 	protected int x, prevX, y, prevY;
 	protected long tickLifeTime = 0;
-	protected boolean updated;
 	protected Color color;
 	protected PixelDrawer pixelDrawer;
 	protected Random random = new Random();
@@ -34,7 +33,6 @@ public abstract class Cell {
 		this.color = Color.BLACK;
 		
 		this.pixelDrawer = pixelDrawer;
-		updated = false;
 	}
 	
 	/**
@@ -88,14 +86,8 @@ public abstract class Cell {
 		};
 	}
 	
-	public void setUpdated(boolean updated) {
-		this.updated = updated;
-	}
 	public void setColor(Color color) {
 		this.color = color;
-	}
-	public boolean hasUpdated() {
-		return this.updated;
 	}
 	
 	// Util methods
@@ -148,12 +140,9 @@ public abstract class Cell {
 	}
 	
 	public boolean groundCheck() {
-		return this.y == Constants.SCREEN_HEIGHT - 1;
+		return this.y != Constants.SCREEN_HEIGHT - 1;
 	}
 	
-	public boolean aboveCheck(final Cell[][] board) {
-		return board[this.x][this.y - 1] != null;
-	}
 	public boolean belowCheck(final Cell[][] board) {
 		return board[this.x][this.y + 1] != null;
 	}
@@ -162,8 +151,5 @@ public abstract class Cell {
 	}
 	public boolean rightCheck(final Cell[][] board) {
 		return board[this.x + 1][this.y] != null;
-	}
-	public boolean leftRightCheck(final Cell[][] board) {
-		return leftCheck(board) || rightCheck(board);
 	}
 }
