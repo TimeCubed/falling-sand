@@ -14,6 +14,7 @@ public abstract class Cell {
 	protected PixelDrawer pixelDrawer;
 	protected Random random = new Random();
 	
+	protected int horizontalTravelDirection, totalHorizontalTravel = 0;
 	protected static class HorizontalTravelDirections {
 		public static int LEFT = -1;
 		public static int NO_TRAVEL = 0;
@@ -48,6 +49,14 @@ public abstract class Cell {
 		
 		return new int[] {this.x, this.y};
 	}
+
+	/**
+	 * Returns the cell's expected X and Y position after an update without updating its position
+	 *
+	 * @param board The game board with all the cells in it for neighbor data
+	 * @return A 2 element integer array containing the updated X and Y position
+	 */
+	public abstract int[] returnUpdatePosition(final Cell[][] board);
 	
 	/**
 	 * Draws the current cell using the internal <code>PixelDrawer</code> object from the constructor.
@@ -61,8 +70,14 @@ public abstract class Cell {
 	 * @param y The Y position to create the cluster of cells at
 	 * @param board The game board used for neighbor data
 	 */
-	public static void createCluster(PixelDrawer pixelDrawer, int x, int y, final Cell[][] board, Class<? extends Cell> cellType) {
-		board[x][y] = createCellOfType(pixelDrawer, x, y, cellType);
+	public static void createCluster(PixelDrawer pixelDrawer, int x, int y, final Cell[][] board, int clusterSize, Class<? extends Cell> cellType) {
+		for (int i = x - (int) (Math.floor((double) clusterSize / 2)); i <= x + (int) (Math.floor((double) clusterSize / 2)); i++) {
+			for (int j = y - (int) (Math.floor((double) clusterSize / 2)); j <= y + (int) (Math.floor((double) clusterSize / 2)); j++) {
+				if (i >= 0 && i < Constants.SCREEN_WIDTH && j >= 0 && j < Constants.SCREEN_HEIGHT) {
+					board[i][j] = createCellOfType(pixelDrawer, i, j, cellType);
+				}
+			}
+		}
 	}
 	
 	private static Cell createCellOfType(PixelDrawer pixelDrawer, int x, int y, Class<? extends Cell> cellType) {
@@ -102,19 +117,53 @@ public abstract class Cell {
 		}
 	}
 	
+	public int[] validateCoordinates(int x, int y) {
+		if (x >= Constants.SCREEN_WIDTH) {
+			x = Constants.SCREEN_WIDTH - 1;
+		}
+		
+		if (x < 0) {
+			x = 0;
+		}
+		
+		if (y >= Constants.SCREEN_HEIGHT) {
+			y = Constants.SCREEN_HEIGHT - 1;
+		}
+		
+		if (y < 0) {
+			y = 0;
+		}
+		
+		return new int[] {x, y};
+	}
+	
 	public boolean leftEdgeCheck() {
 		return this.x == 0;
 	}
-	
 	public boolean rightEdgeCheck() {
 		return this.x == Constants.SCREEN_WIDTH - 1;
 	}
-	
 	public boolean horizontalEdgeCheck() {
 		return leftEdgeCheck() || rightEdgeCheck();
 	}
 	
 	public boolean groundCheck() {
 		return this.y == Constants.SCREEN_HEIGHT - 1;
+	}
+	
+	public boolean aboveCheck(final Cell[][] board) {
+		return board[this.x][this.y - 1] != null;
+	}
+	public boolean belowCheck(final Cell[][] board) {
+		return board[this.x][this.y + 1] != null;
+	}
+	public boolean leftCheck(final Cell[][] board) {
+		return board[this.x - 1][this.y] != null;
+	}
+	public boolean rightCheck(final Cell[][] board) {
+		return board[this.x + 1][this.y] != null;
+	}
+	public boolean leftRightCheck(final Cell[][] board) {
+		return leftCheck(board) || rightCheck(board);
 	}
 }
