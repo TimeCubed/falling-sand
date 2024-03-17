@@ -1,11 +1,10 @@
 package Main;
 
 import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.*;
+import java.awt.event.*;
 
-public class Main implements MouseListener, MouseMotionListener {
+public class Main implements MouseListener, MouseMotionListener, KeyListener {
 	private static Renderer renderer;
 	public static Main LISTENER = new Main();
 	private static JFrame jFrame;
@@ -18,6 +17,9 @@ public class Main implements MouseListener, MouseMotionListener {
 		jFrame.setResizable(false);
 		jFrame.add(pixelDrawer);
 		jFrame.addMouseListener(LISTENER);
+		jFrame.addKeyListener(LISTENER);
+		jFrame.getContentPane().setBackground(Color.black);
+		pixelDrawer.setBackground(Color.black);
 		jFrame.pack();
 		jFrame.setLocationRelativeTo(null);
 		jFrame.setVisible(true);
@@ -64,5 +66,20 @@ public class Main implements MouseListener, MouseMotionListener {
 	
 	public JFrame getFrame() {
 		return jFrame;
+	}
+	
+	@Override
+	public void keyTyped(KeyEvent e) {
+		renderer.keyTyped(e);
+	}
+	
+	@Override
+	public void keyPressed(KeyEvent e) {
+		renderer.keyPressed(e);
+	}
+	
+	@Override
+	public void keyReleased(KeyEvent e) {
+		renderer.keyReleased(e);
 	}
 }
