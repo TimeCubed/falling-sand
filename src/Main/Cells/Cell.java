@@ -21,7 +21,7 @@ public abstract class Cell {
 	}
 	
 	/**
-	 * Creates a new cell with a default black color
+	 * Creates a new typeless cell with a default black color
 	 *
 	 * @param pixelDrawer The <code>PixelDrawer</code> object that is used for drawing
 	 * @param x The initial X position of this cell
@@ -68,6 +68,7 @@ public abstract class Cell {
 	private static Cell createCellOfType(PixelDrawer pixelDrawer, int x, int y, Class<? extends Cell> cellType) {
 		return switch (cellType.getSimpleName()) {
 			case "SandCell" -> new SandCell(pixelDrawer, x, y);
+			case "WaterCell" -> new WaterCell(pixelDrawer, x, y);
 			default -> throw new IllegalArgumentException("Invalid cell type given");
 		};
 	}
