@@ -1,12 +1,12 @@
 package Main.Cells;
 
 import Main.PixelDrawer;
-import Main.Util.Constants;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class SandCell extends Cell {
 	private final int maxTravel;
-	protected int horizontalTravelDirection, totalHorizontalTravel = 0;
 	
 	public SandCell(PixelDrawer pixelDrawer, int x, int y) {
 		super(pixelDrawer, x, y);
@@ -29,14 +29,12 @@ public class SandCell extends Cell {
 		this.prevX = this.x;
 		this.prevY = this.y;
 		
-		validatePosition();
-		
-		if (!groundCheck() && board[this.x][this.y + 1] == null) {
+		if (!groundCheck() && (board[this.x][this.y + 1] == null || !Arrays.equals(board[this.x][this.y + 1].returnUpdatePosition(board), new int[]{this.x, this.y + 1}))) {
 			this.y += 1;
-		} else if (!leftEdgeCheck() && !groundCheck() && board[this.x - 1][this.y + 1] == null) {
+		} else if (!leftEdgeCheck() && !groundCheck() && (board[this.x - 1][this.y + 1] == null || !Arrays.equals(board[this.x - 1][this.y + 1].returnUpdatePosition(board), new int[]{this.x - 1, this.y + 1}))) {
 			this.x -= 1;
 			this.y += 1;
-		} else if (!rightEdgeCheck() && !groundCheck() && board[this.x +1][this.y + 1] == null) {
+		} else if (!rightEdgeCheck() && !groundCheck() && (board[this.x + 1][this.y + 1] == null || !Arrays.equals(board[this.x + 1][this.y + 1].returnUpdatePosition(board), new int[]{this.x + 1, this.y + 1}))) {
 			this.x += 1;
 			this.y += 1;
 		}
@@ -51,6 +49,41 @@ public class SandCell extends Cell {
 		validatePosition();
 		
 		return super.update(board);
+	}
+	
+	@Override
+	public int[] returnUpdatePosition(Cell[][] board) {
+		int updateX = this.x;
+		int updateY = this.y;
+
+		int[] validatedCoordinates;
+
+		if (!groundCheck() && board[updateX][updateY + 1] == null) {
+			updateY += 1;
+		} else if (!leftEdgeCheck() && !groundCheck() && board[updateX - 1][updateY + 1] == null) {
+			updateX -= 1;
+			updateY += 1;
+		} else if (!rightEdgeCheck() && !groundCheck() && board[updateX +1][updateY + 1] == null) {
+			updateX += 1;
+			updateY += 1;
+		}
+
+		validatedCoordinates = validateCoordinates(updateX, updateY);
+
+		updateX = validatedCoordinates[0];
+		updateY = validatedCoordinates[1];
+
+		if (random.nextInt(2) == 0 && totalHorizontalTravel < maxTravel && !horizontalEdgeCheck() && board[updateX + horizontalTravelDirection][updateY] == null) {
+			this.x += horizontalTravelDirection;
+			totalHorizontalTravel++;
+		}
+
+		validatedCoordinates = validateCoordinates(updateX, updateY);
+
+		updateX = validatedCoordinates[0];
+		updateY = validatedCoordinates[1];
+
+		return new int[] {updateX, updateY};
 	}
 	
 	@Override
