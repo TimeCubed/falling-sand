@@ -31,37 +31,37 @@ public class Main implements MouseListener, MouseMotionListener, KeyListener {
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		renderer.mouseClicked(e);
+		if (renderer != null) renderer.mouseClicked(e);
 	}
 	
 	@Override
 	public void mousePressed(MouseEvent e) {
-		renderer.mousePressed(e);
+		if (renderer != null) renderer.mousePressed(e);
 	}
 	
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		renderer.mouseReleased(e);
+		if (renderer != null) renderer.mouseReleased(e);
 	}
 	
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		renderer.mouseEntered(e);
+		if (renderer != null) renderer.mouseEntered(e);
 	}
 	
 	@Override
 	public void mouseExited(MouseEvent e) {
-		renderer.mouseExited(e);
+		if (renderer != null) renderer.mouseExited(e);
 	}
 	
 	@Override
 	public void mouseDragged(MouseEvent e) {
-		renderer.mouseDragged(e);
+		if (renderer != null) renderer.mouseDragged(e);
 	}
 	
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		renderer.mouseMoved(e);
+		if (renderer != null) renderer.mouseMoved(e);
 	}
 	
 	public JFrame getFrame() {
@@ -70,16 +70,16 @@ public class Main implements MouseListener, MouseMotionListener, KeyListener {
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		renderer.keyTyped(e);
+		if (renderer != null) renderer.keyTyped(e);
 	}
 	
 	@Override
 	public void keyPressed(KeyEvent e) {
-		renderer.keyPressed(e);
+		if (renderer != null) renderer.keyPressed(e);
 	}
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
-		renderer.keyReleased(e);
+		if (renderer != null) renderer.keyReleased(e);
 	}
 }
