@@ -1,13 +1,14 @@
 package Main.Cells;
 
 import Main.PixelDrawer;
+import Main.Util.Constants;
 
 import java.awt.*;
 import java.util.Arrays;
 
 public class WaterCell extends Cell {
-	public WaterCell(PixelDrawer pixelDrawer, int x, int y) {
-		super(pixelDrawer, x, y);
+	public WaterCell(PixelDrawer pixelDrawer, int x, int y, int id) {
+		super(pixelDrawer, x, y, id);
 		
 		int brightnessOffset = this.random.nextInt(41) - 20;
 		
@@ -30,10 +31,6 @@ public class WaterCell extends Cell {
 		
 		validatePosition();
 		
-		if (!horizontalEdgeCheck() && groundCheck() && belowCheck(board) && (board[this.x + horizontalTravelDirection][this.y] == null || !Arrays.equals(board[this.x + horizontalTravelDirection][this.y].returnUpdatePosition(board), new int[] {this.x + horizontalTravelDirection, this.y}))) {
-			this.x += horizontalTravelDirection;
-		}
-		
 		if (horizontalEdgeCheck()) {
 			horizontalTravelDirection = -horizontalTravelDirection;
 		} else if (horizontalTravelDirection == -1 && leftCheck(board)) {
@@ -42,9 +39,15 @@ public class WaterCell extends Cell {
 			horizontalTravelDirection = -horizontalTravelDirection;
 		}
 		
+		if (horizontalTravelDirection == -1 && groundCheck() && belowCheck(board) && !leftEdgeCheck() && board[this.x + horizontalTravelDirection][this.y] == null) {
+			this.x += horizontalTravelDirection;
+		} else if (horizontalTravelDirection == 1 && groundCheck() && belowCheck(board) && !rightEdgeCheck() && board[this.x + horizontalTravelDirection][this.y] == null) {
+			this.x += horizontalTravelDirection;
+		}
+		
 		validatePosition();
 		
-		return super.update(board);
+		return new int[] {this.x, this.y};
 	}
 	
 	@Override
@@ -55,7 +58,7 @@ public class WaterCell extends Cell {
 		int[] validatedCoordinates;
 		
 		if (groundCheck() && !belowCheck(board)) {
-			this.y++;
+			updateY++;
 		}
 		
 		validatedCoordinates = validateCoordinates(updateX, updateY);
