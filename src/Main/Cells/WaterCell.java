@@ -34,7 +34,7 @@ public class WaterCell extends Cell {
 			horizontalTravelDirection = -horizontalTravelDirection;
 		} else if (horizontalTravelDirection == -1 && NeighbourChecks.leftCheck(board, x, y)) {
 			horizontalTravelDirection = -horizontalTravelDirection;
-		} else if (horizontalTravelDirection == 1 && rightCheck(board)) {
+		} else if (horizontalTravelDirection == 1 && NeighbourChecks.rightCheck(board, x, y)) {
 			horizontalTravelDirection = -horizontalTravelDirection;
 		}
 		
