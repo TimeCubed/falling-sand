@@ -1,8 +1,8 @@
 package Main.Cells;
 
+import Main.Cells.Util.NeighbourChecks;
 import Main.PixelDrawer;
 import java.awt.*;
-import java.util.Arrays;
 
 public class SandCell extends Cell {
 	private final int maxTravel;
@@ -28,19 +28,19 @@ public class SandCell extends Cell {
 		this.prevX = this.x;
 		this.prevY = this.y;
 		
-		if (groundCheck() && board[this.x][this.y + 1] == null) {
+		if (NeighbourChecks.groundCheck(y) && board[this.x][this.y + 1] == null) {
 			this.y += 1;
-		} else if (!leftEdgeCheck() && groundCheck() && board[this.x - 1][this.y + 1] == null && (horizontalTravelDirection == -1 || random.nextBoolean())) {
+		} else if (!NeighbourChecks.leftEdgeCheck(x) && NeighbourChecks.groundCheck(y) && board[this.x - 1][this.y + 1] == null && (horizontalTravelDirection == -1 || random.nextBoolean())) {
 			this.x -= 1;
 			this.y += 1;
-		} else if (!rightEdgeCheck() && groundCheck() && board[this.x + 1][this.y + 1] == null && (horizontalTravelDirection == 1 || random.nextBoolean())) {
+		} else if (!NeighbourChecks.rightEdgeCheck(x) && NeighbourChecks.groundCheck(y) && board[this.x + 1][this.y + 1] == null && (horizontalTravelDirection == 1 || random.nextBoolean())) {
 			this.x += 1;
 			this.y += 1;
 		}
 		
 		validatePosition();
 		
-		if (random.nextInt(2) == 0 && totalHorizontalTravel < maxTravel && !horizontalEdgeCheck() && board[this.x + horizontalTravelDirection][this.y] == null) {
+		if (random.nextInt(2) == 0 && totalHorizontalTravel < maxTravel && !NeighbourChecks.horizontalEdgeCheck(x) && board[this.x + horizontalTravelDirection][this.y] == null) {
 			this.x += horizontalTravelDirection;
 			totalHorizontalTravel++;
 		}
@@ -57,12 +57,12 @@ public class SandCell extends Cell {
 
 		int[] validatedCoordinates;
 
-		if (groundCheck() && board[updateX][updateY + 1] == null) {
+		if (NeighbourChecks.groundCheck(updateY) && board[updateX][updateY + 1] == null) {
 			updateY += 1;
-		} else if (!leftEdgeCheck() && groundCheck() && board[updateX - 1][updateY + 1] == null) {
+		} else if (!NeighbourChecks.leftEdgeCheck(updateX) && NeighbourChecks.groundCheck(updateY) && board[updateX - 1][updateY + 1] == null) {
 			updateX -= 1;
 			updateY += 1;
-		} else if (!rightEdgeCheck() && groundCheck() && board[updateX +1][updateY + 1] == null) {
+		} else if (!NeighbourChecks.rightEdgeCheck(updateX) && NeighbourChecks.groundCheck(updateY) && board[updateX +1][updateY + 1] == null) {
 			updateX += 1;
 			updateY += 1;
 		}
@@ -72,7 +72,7 @@ public class SandCell extends Cell {
 		updateX = validatedCoordinates[0];
 		updateY = validatedCoordinates[1];
 
-		if (random.nextInt(2) == 0 && totalHorizontalTravel < maxTravel && !horizontalEdgeCheck() && board[updateX + horizontalTravelDirection][updateY] == null) {
+		if (random.nextInt(2) == 0 && totalHorizontalTravel < maxTravel && !NeighbourChecks.horizontalEdgeCheck(updateX) && board[updateX + horizontalTravelDirection][updateY] == null) {
 			this.x += horizontalTravelDirection;
 			totalHorizontalTravel++;
 		}

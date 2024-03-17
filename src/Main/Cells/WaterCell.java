@@ -1,10 +1,9 @@
 package Main.Cells;
 
+import Main.Cells.Util.NeighbourChecks;
 import Main.PixelDrawer;
-import Main.Util.Constants;
 
 import java.awt.*;
-import java.util.Arrays;
 
 public class WaterCell extends Cell {
 	public WaterCell(PixelDrawer pixelDrawer, int x, int y, int id) {
@@ -25,23 +24,23 @@ public class WaterCell extends Cell {
 		this.prevX = this.x;
 		this.prevY = this.y;
 		
-		if (groundCheck() && !belowCheck(board)) {
+		if (NeighbourChecks.groundCheck(y) && !NeighbourChecks.belowCheck(board, x, y)) {
 			this.y++;
 		}
 		
 		validatePosition();
 		
-		if (horizontalEdgeCheck()) {
+		if (NeighbourChecks.horizontalEdgeCheck(x)) {
 			horizontalTravelDirection = -horizontalTravelDirection;
-		} else if (horizontalTravelDirection == -1 && leftCheck(board)) {
+		} else if (horizontalTravelDirection == -1 && NeighbourChecks.leftCheck(board, x, y)) {
 			horizontalTravelDirection = -horizontalTravelDirection;
 		} else if (horizontalTravelDirection == 1 && rightCheck(board)) {
 			horizontalTravelDirection = -horizontalTravelDirection;
 		}
 		
-		if (horizontalTravelDirection == -1 && groundCheck() && belowCheck(board) && !leftEdgeCheck() && board[this.x + horizontalTravelDirection][this.y] == null) {
+		if (horizontalTravelDirection == -1 && NeighbourChecks.groundCheck(y) && NeighbourChecks.belowCheck(board, x, y) && !NeighbourChecks.leftEdgeCheck(x) && board[x + horizontalTravelDirection][y] == null) {
 			this.x += horizontalTravelDirection;
-		} else if (horizontalTravelDirection == 1 && groundCheck() && belowCheck(board) && !rightEdgeCheck() && board[this.x + horizontalTravelDirection][this.y] == null) {
+		} else if (horizontalTravelDirection == 1 && NeighbourChecks.groundCheck(y) && NeighbourChecks.belowCheck(board, x, y) && !NeighbourChecks.rightEdgeCheck(x) && board[x + horizontalTravelDirection][y] == null) {
 			this.x += horizontalTravelDirection;
 		}
 		
@@ -57,7 +56,7 @@ public class WaterCell extends Cell {
 		
 		int[] validatedCoordinates;
 		
-		if (groundCheck() && !belowCheck(board)) {
+		if (NeighbourChecks.groundCheck(y) && !NeighbourChecks.belowCheck(board, x, y)) {
 			updateY++;
 		}
 		
@@ -65,7 +64,7 @@ public class WaterCell extends Cell {
 		updateX = validatedCoordinates[0];
 		updateY = validatedCoordinates[1];
 		
-		if (!horizontalEdgeCheck() && groundCheck() && belowCheck(board) && board[this.x + horizontalTravelDirection][this.y] == null) {
+		if (!NeighbourChecks.horizontalEdgeCheck(x) && NeighbourChecks.groundCheck(y) && NeighbourChecks.belowCheck(board, x, y) && board[this.x + horizontalTravelDirection][this.y] == null) {
 			updateX += horizontalTravelDirection;
 		}
 		

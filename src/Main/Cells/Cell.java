@@ -154,28 +154,4 @@ public abstract class Cell {
 		
 		return new int[] {x, y};
 	}
-	
-	public boolean leftEdgeCheck() {
-		return this.x == 0;
-	}
-	public boolean rightEdgeCheck() {
-		return this.x == Constants.SCREEN_WIDTH - 1;
-	}
-	public boolean horizontalEdgeCheck() {
-		return leftEdgeCheck() || rightEdgeCheck();
-	}
-	
-	public boolean groundCheck() {
-		return this.y != Constants.SCREEN_HEIGHT - 1;
-	}
-	
-	public boolean belowCheck(final Cell[][] board) {
-		return board[this.x][this.y + 1] != null;
-	}
-	public boolean leftCheck(final Cell[][] board) {
-		return board[this.x - 1][this.y] != null;
-	}
-	public boolean rightCheck(final Cell[][] board) {
-		return board[this.x + 1][this.y] != null;
-	}
 }
